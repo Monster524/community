@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.monster.mapper.ParkingMapper">
+    <resultMap id="parkingMap" type="com.monster.entity.Parking">
+        <id column="parking_id" property="parkingId"></id>
+        <result column="parking_number" property="parkingNumber"></result>
+        <result column="parking_status" property="parkingStatus"></result>
+        <result column="parking_status" property="parkingStatus"></result>
+        <association property="owner" javaType="com.monster.entity.Owner">
+            <id column="owner_uid" property="ownerUid"></id>
+            <result column="owner_name" property="ownerName"></result>
+        </association>
+    </resultMap>
+    <!--查询小区所有-->
+    <select id="list" parameterType="Integer" resultMap="parkingMap">
+        SELECT *
+        FROM parking
+        LEFT JOIN owner
+        ON parking.owner_uid=owner.owner_uid where parking.community_id=#{id};
+    </select>
+    <!--条件查询小区-->
+    <!--车位编号（模糊） 业主姓名（模糊） 状态-->
+    <select id="selectByMap"  parameterType="map" resultMap="parkingMap">
+        SELECT parking_id,parking_number,parking_status,parking.owner_uid,owner_name
+        FROM parking
+        LEFT JOIN owner
+        ON parking.owner_uid=owner.owner_uid
+        <where>
+            <if test="parkingNumber!=null and parkingNumber!=''">
+                and parking_number like "%"#{parkingNumber}"%"
+            </if>
+            <if test="parkingStatus!=null">
+                and parking_status=#{parkingStatus}
+            </if>
+            <if test="ownerName!=null and ownerName!=''">
+                and owner_name like "%"#{ownerName}"%"
+            </if>
+            <if test="communityId!=null and communityId!=''">
+                and parking.community_id=#{communityId}
+            </if>
+        </where>
+    </select>
+</mapper>

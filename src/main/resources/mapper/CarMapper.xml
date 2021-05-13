@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.monster.mapper.CarMapper">
+
+    <resultMap id="carMap" type="com.monster.entity.Car">
+        <id column="car_id" property="carId"></id>
+        <result column="car_number" property="carNumber"></result>
+        <result column="car_brand" property="carBrand"></result>
+        <association property="owner" javaType="com.monster.entity.Owner">
+            <id column="owner_uid" property="ownerUid"></id>
+            <result column="owner_name" property="ownerName"></result>
+        </association>
+        <association property="parking"  javaType="com.monster.entity.Parking">
+            <id column="parking_id" property="parkingId"></id>
+            <result column="parking_number" property="parkingNumber"></result>
+        </association>
+    </resultMap>
+
+    <select id="list" parameterType="Integer" resultMap="carMap">
+        SELECT *
+        FROM car
+        LEFT JOIN owner
+        ON car.owner_uid=owner.owner_uid
+        LEFT JOIN parking
+        ON car.parking_id=parking.parking_id
+        where car.community_id=#{id};
+    </select>
+
+    <!--条件查询-->
+    <!--车位编号（模糊） 业主姓名（模糊） 状态-->
+    <select id="selectByMap"  resultMap="carMap">
+        SELECT car_id,car_number,car_brand,car.owner_uid,owner_name,car.parking_id,parking_number
+        FROM car
+        LEFT JOIN owner
+        ON car.owner_uid=owner.owner_uid
+        LEFT JOIN parking
+        ON car.parking_id=parking.parking_id
+        <where>
+            <if test="carNumber!=null and carNumber!=''">
+                and car_number like "%"#{carNumber}"%"
+            </if>
+            <if test="ownerName!=null and ownerName!=''">
+                and owner_name like "%"#{ownerName}"%"
+            </if>
+            <if test="communityId!=null">
+                and car.community_id=#{communityId}
+            </if>
+        </where>
+    </select>
+
+    <insert id="add"   parameterType="com.monster.entity.Car">
+        INSERT INTO car(car_number,car_brand,community_id,owner_uid,parking_id)
+        VALUES (#{carNumber},#{carBrand},#{communityId},#{owner.ownerUid},#{parking.parkingId});
+    </insert>
+
+</mapper>

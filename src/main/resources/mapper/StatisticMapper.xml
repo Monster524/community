@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.monster.mapper.StatisticMapper">
+    <select id="thismonth" resultType="com.monster.vo.StatisticVO">
+        select count(*) as count,sum(order_total) as sum
+        from houseorder
+        where  MONTH(order_date) = MONTH(curdate());
+    </select>
+    <select id="notpay" resultType="com.monster.vo.StatisticVO">
+        select count(*) as count,sum(order_total) as sum
+        from houseorder
+        where  MONTH(order_date) = MONTH(curdate())
+        and  order_status=0;
+    </select>
+    <select id="thisyear" resultType="com.monster.vo.StatisticVO">
+        select count(*) as count,sum(order_total) as sum
+        from houseorder
+        where  YEAR(order_date) = YEAR(curdate());
+    </select>
+    <select id="total" resultType="com.monster.vo.StatisticVO">
+        select count(*) as count,sum(order_total) as sum
+        from houseorder
+        where order_status=1;
+    </select>
+
+</mapper>

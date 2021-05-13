@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.monster.mapper.OwnerMapper">
+    <resultMap id="ownerMap" type="com.monster.entity.Owner">
+        <id column="owner_uid" property="ownerUid"></id>
+        <result column="owner_name" property="ownerName"></result>
+        <result column="owner_sex" property="ownerSex"></result>
+        <result column="owner_id" property="ownerId"></result>
+        <result column="owner_phone" property="ownerPhone"></result>
+        <collection property="parkings"  ofType="com.monster.entity.Parking">
+            <id column="parking_id" property="parkingId"></id>
+            <result column="parking_number" property="parkingNumber"></result>
+        </collection>
+        <collection property="houses"  ofType="com.monster.entity.House">
+            <id column="house_id" property="houseId"></id>
+            <result column="house_number" property="houseNumber"></result>
+        </collection>
+    </resultMap>
+
+    <select id="list" parameterType="Integer" resultMap="ownerMap">
+        select owner.owner_uid,owner_name,owner_sex,owner_id,owner_phone,
+               house_id,house_number,parking_id,parking_number
+        from owner
+        left join house
+        on house.owner_uid=owner.owner_uid
+        left join parking
+        on parking.owner_uid=owner.owner_uid
+        where owner.community_id=#{id};
+    </select>
+
+    <select id="selectByMap" resultMap="ownerMap">
+        select owner.owner_uid,owner_name,owner_sex,owner_id,owner_phone,
+               house_id,house_number,parking_id,parking_number
+        from owner
+        left join house
+        on house.owner_uid=owner.owner_uid
+        left join parking
+        on parking.owner_uid=owner.owner_uid
+        <where>
+            <if test="ownerName != null and ownerName!=''">
+                and owner_name like "%"#{ownerName}"%"
+            </if>
+            <if test="ownerPhone != null and ownerPhone!=''">
+                and owner_phone = #{ownerPhone}
+            </if>
+            <if test="communityId != null">
+                and owner.community_id = #{communityId}
+            </if>
+        </where>
+    </select>
+
+    <select id="getById" parameterType="Integer" resultMap="ownerMap">
+        select owner.owner_uid,owner_name,owner_sex,owner_id,owner_phone,
+               house_id,house_number,parking_id,parking_number
+        from owner
+        left join house
+        on house.owner_uid=owner.owner_uid
+        left join parking
+        on parking.owner_uid=owner.owner_uid
+        where owner.owner_uid=#{id};
+    </select>
+
+    <update id="updatePassword" parameterType="com.monster.entity.Owner">
+        update owner set  owner_password = #{ownerPassword} where owner_phone = #{ownerPhone}
+    </update>
+</mapper>
