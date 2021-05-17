@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.stereotype.Controller;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -42,9 +43,26 @@ public class RepairController {
      */
     @GetMapping("/list")
     public Result list(@RequestParam("token") String token){
+
         Admin admin = authService.findAdminByToken(token);
         int id = admin.getCommunityId();
-        return Result.build(200,"查找成功",repairService.list(new QueryWrapper<Repair>().eq("community_id",id)));
+       // return Result.build(200,"查找成功",repairService.list(new QueryWrapper<Repair>().eq("community_id",id)));
+       // List<Repair> doList = repairService.list(new QueryWrapper<Repair>().eq("community_id",id).eq("repair_status",1));
+        //List<Repair> undoList = repairService.list(new QueryWrapper<Repair>().eq("community_id",id).eq("repair_status",0));
+        Repair doRepair = new Repair();
+        doRepair.setCommunityId(id);
+        doRepair.setRepairStatus(1);
+        Repair undoRepair = new Repair();
+        undoRepair.setCommunityId(id);
+        undoRepair.setRepairStatus(0);
+        List<Repair> doList = repairService.list(doRepair);
+        List<Repair> undoList = repairService.list(undoRepair);
+        //两个List
+        Map<String,List> map = new HashMap<>();
+        map.put("doList",doList);
+        map.put("undoList",undoList);
+
+        return Result.build(200,"查找成功",map);
     }
 
 

@@ -44,6 +44,6 @@
     </select>
 
     <update id="selectOwner" parameterType="com.monster.entity.House">
-        update house set owner_uid = #{owner.ownerUid} where house_id=#{houseId}
+        update house set owner_uid = #{owner.ownerUid},house_status=#{houseStatus} where house_id=#{houseId}
     </update>
 </mapper>

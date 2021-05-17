@@ -30,17 +30,6 @@ import lombok.EqualsAndHashCode;
     private String communityAddress;
 
 
-  /**
-   * token 登陆凭证
-   */
-  private String token;
-  /**
-   * token 过期时间
-   */
-  private LocalDateTime expireTime;
-  /**
-   *  登录时间
-   */
-  private LocalDateTime loginTime;
+
 
 }

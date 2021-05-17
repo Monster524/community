@@ -11,12 +11,25 @@
         <association property="owner"  javaType="com.monster.entity.Owner">
             <id column="owner_uid" property="ownerUid"></id>
             <result column="owner_name" property="ownerName"></result>
+            <result column="owner_phone" property="ownerPhone"></result>
         </association>
-
     </resultMap>
-
+    <select id="list" parameterType="com.monster.entity.Complaint" resultMap="complaintMap">
+        select c.complaint_id,complaint_content,complaint_date,complaint_status,o.owner_uid,o.owner_name,o.owner_phone
+        from complaint c
+        join owner o
+        on c.owner_uid=o.owner_uid
+        <where>
+            <if test="complaintStatus != null">
+                and complaint_status =#{complaintStatus}
+            </if>
+            <if test="communityId != null">
+                and c.community_id = #{communityId}
+            </if>
+        </where>
+    </select>
     <select id="selectByMap"   resultMap="complaintMap">
-        select c.complaint_id,complaint_content,complaint_date,complaint_status,owner_name
+        select c.complaint_id,complaint_content,complaint_date,complaint_status,o.owner_uid,o.owner_name,o.owner_phone
         from complaint c
         join owner o
         on c.owner_uid=o.owner_uid

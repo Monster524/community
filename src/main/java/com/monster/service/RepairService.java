@@ -17,4 +17,5 @@ import java.util.Map;
 public interface RepairService extends IService<Repair> {
 
     List<Repair> selectByMap(Map<String, Object> map);
+    List<Repair> list(Repair repair);
 }

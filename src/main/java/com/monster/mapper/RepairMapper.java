@@ -20,4 +20,5 @@ import java.util.Map;
 @Repository
 public interface RepairMapper extends BaseMapper<Repair> {
     List<Repair> selectByMap(Map<String,Object> map);
+    List<Repair> list(Repair repair);
 }

@@ -20,4 +20,5 @@ import java.util.Map;
 @Repository
 public interface ComplaintMapper extends BaseMapper<Complaint> {
     List<Complaint> selectByMap(Map<String,Object> map);
+    List<Complaint> list(Complaint complaint);
 }

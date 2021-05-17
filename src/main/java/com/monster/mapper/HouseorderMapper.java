@@ -23,4 +23,6 @@ public interface HouseorderMapper extends BaseMapper<Houseorder> {
     List<Houseorder> list(int id);
 
     List<Houseorder> selectByMap(Map<String,Object> map);
+
+    List<Houseorder> owner(Map<String, Object> map);
 }

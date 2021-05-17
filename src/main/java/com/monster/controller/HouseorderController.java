@@ -5,9 +5,7 @@ import cn.hutool.db.handler.HandleHelper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.monster.auth.service.AuthService;
 import com.monster.common.utils.Result;
-import com.monster.entity.Admin;
-import com.monster.entity.Houseorder;
-import com.monster.entity.Pay;
+import com.monster.entity.*;
 import com.monster.service.HouseorderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -15,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.stereotype.Controller;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -39,9 +38,40 @@ public class HouseorderController {
     public Result list(@RequestParam("token") String token){
         Admin admin = authService.findAdminByToken(token);
         int id = admin.getCommunityId();
-        return  Result.build(200,"查找成功",houseorderService.list(id));
+       // return  Result.build(200,"查找成功",houseorderService.list(id));
+       // List<Houseorder> doList = houseorderService.list(new QueryWrapper<Houseorder>().eq("community_id",id).eq("order_status",1)) ;
+       // List<Houseorder> undoList = houseorderService.list(new QueryWrapper<Houseorder>().eq("community_id",id).eq("order_status",0));
+
+        List<Houseorder> doList = houseorderService.list(new QueryWrapper<Houseorder>().eq("community_id",id).eq("order_status",1));
+        List<Houseorder> undoList = houseorderService.list(new QueryWrapper<Houseorder>().eq("community_id",id).eq("order_status",0));
+        Map<String,List> map = new HashMap<>();
+        map.put("doList",doList);
+        map.put("undoList",undoList);
+        return Result.build(200,"查找成功",map);
     }
 
+    @GetMapping("/findByToken")
+    public Result owner(@RequestParam("token") String token){
+        Owner owner = authService.findOwnerByToken(token);
+        int id = owner.getCommunityId();
+        // return  Result.build(200,"查找成功",houseorderService.list(id));
+        // List<Houseorder> doList = houseorderService.list(new QueryWrapper<Houseorder>().eq("community_id",id).eq("order_status",1)) ;
+        // List<Houseorder> undoList = houseorderService.list(new QueryWrapper<Houseorder>().eq("community_id",id).eq("order_status",0));
+        Map<String,Object> map1 = new HashMap<>();
+        map1.put("ownerUid",id);
+        map1.put("orderStatus",1);
+
+        Map<String,Object> map2 = new HashMap<>();
+        map2.put("ownerUid",id);
+        map2.put("orderStatus",0);
+        List<Houseorder> doList = houseorderService.owner(map1);
+        List<Houseorder> undoList = houseorderService.owner(map2);
+
+        Map<String,List> map = new HashMap<>();
+        map.put("doList",doList);
+        map.put("undoList",undoList);
+        return Result.build(200,"查找成功",map);
+    }
 
 
     @GetMapping("/selectByMap")

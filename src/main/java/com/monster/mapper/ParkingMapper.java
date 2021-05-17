@@ -21,4 +21,6 @@ import java.util.Map;
 public interface ParkingMapper extends BaseMapper<Parking> {
      List<Parking> list(Integer communityId);
      List<Parking> selectByMap(Map<String,Object> map);
+
+    void update(Parking parking);
 }

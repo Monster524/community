@@ -22,11 +22,23 @@
         from houseorder
         where community_id = #{id};
     </select>
+
     <select id="selectByMap" parameterType="Map" resultMap="orderMapper">
         select *
         from houseorder
         where community_id = #{communityId} and order_status=#{orderStatus};
     </select>
+
+    <select id="owner" parameterType="Map" resultMap="orderMapper">
+        select *
+        from houseorder o
+        left join house h
+        on o.house_id = h.house_id
+        left join owner
+        on owner.owner_uid = h.owner_uid
+        where h.owner_uid = #{ownerUid} and order_status=#{orderStatus};
+    </select>
+
     <insert id="save" parameterType="com.monster.entity.Houseorder">
         insert into houseorder (order_date,order_total,order_content,order_status,community_id,house_id,pay_id)
         values (#{orderDate},#{orderTotal},#{orderContent},#{orderStatus},#{communityId},#{house.houseId},#{pay.payId});

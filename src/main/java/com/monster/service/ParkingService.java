@@ -18,4 +18,5 @@ import java.util.Map;
 public interface ParkingService extends IService<Parking> {
     List<Parking> list(Integer id);
     List<Parking> selectByMap(Map<String, Object> map);
+    void update(Parking parking);
 }

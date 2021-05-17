@@ -16,6 +16,7 @@ import org.springframework.stereotype.Controller;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -41,7 +42,21 @@ public class ComplaintController {
     public Result list(@RequestParam("token") String token){
         Admin admin = authService.findAdminByToken(token);
         int id = admin.getCommunityId();
-        return Result.build(200,"查找成功",complaintService.list(new QueryWrapper<Complaint>().eq("community_id",id)));
+       // return Result.build(200,"查找成功",complaintService.list(new QueryWrapper<Complaint>().eq("community_id",id)));
+        //List<Complaint> doList = complaintService.list(new QueryWrapper<Complaint>().eq("community_id",id).eq("complaint_status",1));
+        //List<Complaint> undoList = complaintService.list(new QueryWrapper<Complaint>().eq("community_id",id).eq("complaint_status",0));
+        Complaint doCom = new Complaint();
+        doCom.setCommunityId(id);
+        doCom.setComplaintStatus(1);
+        Complaint undoCom = new Complaint();
+        undoCom.setCommunityId(id);
+        undoCom.setComplaintStatus(0);
+        List<Complaint> doList =complaintService.list(doCom);
+        List<Complaint> undoList = complaintService.list(undoCom);
+        Map<String,List> map = new HashMap<>();
+        map.put("doList",doList);
+        map.put("undoList",undoList);
+        return Result.build(200,"查找成功",map);
     }
 
     @GetMapping("/findById")

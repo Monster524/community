@@ -32,11 +32,11 @@ import lombok.EqualsAndHashCode;
 
     private Integer houseStatus;
 
+    private Integer communityId;
     //private Integer ownerUid;
     @TableField(exist = false)
     private Owner owner;
-  @TableField(exist = false)
-    private Integer communityId;
+
 
 
 }

@@ -17,4 +17,5 @@ import java.util.Map;
 public interface ComplaintService extends IService<Complaint> {
 
     List<Complaint> selectByMap(Map<String, Object> map);
+    List<Complaint> list(Complaint complaint);
 }

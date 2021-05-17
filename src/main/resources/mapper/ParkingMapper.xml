@@ -40,4 +40,7 @@
             </if>
         </where>
     </select>
+    <update id="update" parameterType="com.monster.entity.Parking">
+        update parking set owner_uid = #{owner.ownerUid},parking_status=#{parkingStatus} where parking_id=#{parkingId};
+    </update>
 </mapper>

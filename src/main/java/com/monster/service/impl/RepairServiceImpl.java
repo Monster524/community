@@ -27,4 +27,9 @@ public class RepairServiceImpl extends ServiceImpl<RepairMapper, Repair> impleme
     public List<Repair> selectByMap(Map<String, Object> map) {
         return repairMapper.selectByMap(map);
     }
+
+    @Override
+    public List<Repair> list(Repair repair) {
+        return repairMapper.list(repair);
+    }
 }

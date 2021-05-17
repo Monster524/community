@@ -66,6 +66,7 @@ public class ParkingController {
         Admin admin = authService.findAdminByToken(token);
         int id = admin.getCommunityId();
         parking.setCommunityId(id);
+        parking.setParkingStatus(0);
         boolean status = parkingService.save(parking);
         if(status==true){
             return Result.build(200,"添加成功");

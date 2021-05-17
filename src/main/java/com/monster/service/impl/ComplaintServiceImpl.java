@@ -27,4 +27,9 @@ public class ComplaintServiceImpl extends ServiceImpl<ComplaintMapper, Complaint
     public List<Complaint> selectByMap(Map<String, Object> map) {
         return complaintMapper.selectByMap(map);
     }
+
+    @Override
+    public List<Complaint> list(Complaint complaint) {
+        return complaintMapper.list(complaint);
+    }
 }

@@ -28,4 +28,18 @@ public class StatisticServiceImpl implements StatisticService {
         map.put("total",vo4);
         return map;
     }
+
+    @Override
+    public Map<String, Object> owner(Integer id) {
+        Map<String,Object> map = new HashMap<>();
+        StatisticVO vo1 = statisticMapper.ownernotpay(id);
+        StatisticVO vo2 = statisticMapper.ownerthismonth(id);
+        StatisticVO vo3 = statisticMapper.ownerthisyear(id);
+        StatisticVO vo4 = statisticMapper.ownertotal(id);
+        map.put("notpay",vo1);
+        map.put("thismonth",vo2);
+        map.put("thisyear",vo3);
+        map.put("total",vo4);
+        return map;
+    }
 }

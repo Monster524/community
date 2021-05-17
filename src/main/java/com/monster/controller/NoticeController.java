@@ -43,10 +43,15 @@ public class NoticeController {
     public Result list(@RequestParam("token") String token){
         Admin admin = authService.findAdminByToken(token);
         Owner owner = authService.findOwnerByToken(token);
-        int id=admin.getCommunityId();
+        int id;
         if(owner!=null){
-            id = owner.getCommunityId();
+            int ownerId=owner.getCommunityId();
+            id = ownerId;
+        }else{
+            int adminId=admin.getCommunityId();
+            id = adminId;
         }
+
         return Result.build(200,"查找成功",noticeService.list(new QueryWrapper<Notice>().eq("community_id",id).eq("notice_delete",0)));
     }
 
@@ -64,6 +69,7 @@ public class NoticeController {
         notice.setCommunityId(admin.getCommunityId());
         LocalDateTime now = LocalDateTime.now();
         notice.setNoticeDate(now);
+        notice.setNoticeDelete(0);
         boolean status = noticeService.save(notice);
         if(status==true){
             return Result.build(200,"添加成功");

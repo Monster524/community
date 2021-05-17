@@ -30,6 +30,7 @@ public class InterceptorConfig implements WebMvcConfigurer {
         patterns.add("/admin/login");
         patterns.add("/owner/login");
         patterns.add("/owner/register");
+        patterns.add("/community/list");
         registry.addInterceptor(authInterceptor()).addPathPatterns("/**").
                 excludePathPatterns(patterns);
     }

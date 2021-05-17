@@ -36,5 +36,11 @@ public class ParkingServiceImpl extends ServiceImpl<ParkingMapper, Parking> impl
         return parkingMapper.selectByMap(map);
     }
 
+    @Override
+    public void update(Parking parking) {
+        parkingMapper.update(parking);
+    }
+
+
 
 }

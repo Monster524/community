@@ -87,6 +87,7 @@ public class HouseController {
     public Result selectOwner(@RequestBody Map<String,Object> map){
         House house = new House();
         house.setHouseId((Integer) map.get("houseId"));
+        house.setHouseStatus((Integer) map.get("houseStatus"));
         Owner owner = new Owner();
         owner.setOwnerUid((Integer) map.get("ownerUid"));
         house.setOwner(owner);
@@ -95,6 +96,15 @@ public class HouseController {
             return Result.build(400,"更新失败");
         }else{
             return Result.build(200,"更新成功");
+        }
+    }
+    @DeleteMapping("/delete")
+    public Result deleteById(@RequestParam("houseId") Integer id){
+        boolean status = houseService.removeById(id);
+        if(status==false){
+            return Result.build(400,"删除失败");
+        }else{
+            return Result.build(200,"删除成功");
         }
     }
 }

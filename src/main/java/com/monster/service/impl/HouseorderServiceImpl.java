@@ -74,8 +74,15 @@ public class HouseorderServiceImpl extends ServiceImpl<HouseorderMapper, Houseor
         return houseorderMapper.list(id);
     }
 
+
+
     @Override
     public List<Houseorder> selectByMap(Map<String, Object> map) {
         return houseorderMapper.selectByMap(map);
+    }
+
+    @Override
+    public List<Houseorder> owner(Map<String, Object> map) {
+        return houseorderMapper.owner(map);
     }
 }

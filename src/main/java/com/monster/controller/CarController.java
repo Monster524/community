@@ -6,6 +6,7 @@ import com.monster.auth.service.AuthService;
 import com.monster.common.utils.Result;
 import com.monster.entity.*;
 import com.monster.service.CarService;
+import com.monster.service.ParkingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,7 +32,8 @@ public class CarController {
     private CarService carService;
     @Autowired
     private AuthService authService;
-
+    @Autowired
+    private ParkingService parkingService;
     @GetMapping("/list")
     public Result list(@RequestParam("token") String token){
         Admin admin = authService.findAdminByToken(token);
@@ -75,9 +77,15 @@ public class CarController {
         car.setOwner(owner);
         Parking parking = new Parking();
         parking.setParkingId((Integer) map.get("parkingId"));
-        car.setParking(parking);
 
+        parking.setParkingStatus(1);
+        parking.setOwner(owner);
+        parking.setCar(car);
+        car.setParking(parking);
         boolean status = carService.add(car);
+        //车位表更新
+        parkingService.update(parking);
+
         if(status==true){
             return Result.build(200,"添加成功");
         }else{

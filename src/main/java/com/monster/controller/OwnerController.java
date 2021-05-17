@@ -67,6 +67,7 @@ public class OwnerController {
         return Result.build(200,"查找成功",ownerService.list(id));
     }
 
+
     //根据Id查找用户
     @GetMapping("/getById")
     public Result getById(@RequestParam("ownerUid") Integer id){

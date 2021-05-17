@@ -12,6 +12,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.Value;
+import org.springframework.format.annotation.DateTimeFormat;
 
 /**
  * <p>
@@ -32,8 +33,11 @@ import lombok.Value;
 
     private String repairContent;
 
+  @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+  @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime repairNow;
-
+  @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+  @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime repairOrder;
 
     private Integer repairStatus;
