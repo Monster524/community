@@ -16,14 +16,14 @@
     </resultMap>
 
     <select id="list" parameterType="Integer" resultMap="houseMap">
-        SELECT house_id,house_number,house_area,house_status,house.owner_uid,owner_name
+        SELECT house_id,house_number,house_area,house_status,house.owner_uid,owner_name,owner_phone
         FROM house
         LEFT JOIN owner
         ON house.owner_uid=owner.owner_uid WHERE house.community_id = #{id};
     </select>
 
     <select id="selectByMap"  resultMap="houseMap">
-        SELECT house_id,house_number,house_area,house_status,house.owner_uid,owner_name
+        SELECT house_id,house_number,house_area,house_status,house.owner_uid,owner_name,owner_phone
         FROM house
         LEFT JOIN owner
         ON house.owner_uid=owner.owner_uid

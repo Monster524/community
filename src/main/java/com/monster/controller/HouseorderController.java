@@ -51,7 +51,9 @@ public class HouseorderController {
     }
 
     @GetMapping("/findByToken")
-    public Result owner(@RequestParam("token") String token){
+    public Result owner(@RequestParam("token") String token,
+                        @RequestParam(value = "year",required = false)Integer year,
+                        @RequestParam(value = "month",required = false)Integer month){
         Owner owner = authService.findOwnerByToken(token);
         int id = owner.getCommunityId();
         // return  Result.build(200,"查找成功",houseorderService.list(id));
@@ -60,10 +62,14 @@ public class HouseorderController {
         Map<String,Object> map1 = new HashMap<>();
         map1.put("ownerUid",id);
         map1.put("orderStatus",1);
+        map1.put("year",year);
+        map1.put("month",month);
 
         Map<String,Object> map2 = new HashMap<>();
         map2.put("ownerUid",id);
         map2.put("orderStatus",0);
+        map2.put("year",year);
+        map2.put("month",month);
         List<Houseorder> doList = houseorderService.owner(map1);
         List<Houseorder> undoList = houseorderService.owner(map2);
 
@@ -77,7 +83,7 @@ public class HouseorderController {
     @GetMapping("/selectByMap")
     public Result list(@RequestParam("token") String token,
                        @RequestParam(value = "orderStatus",required = false)Integer status,
-                       @RequestParam(value = "houseId",required = false)Integer houseId){
+                       @RequestParam(value = "houseId",required = true)Integer houseId){
         Admin admin = authService.findAdminByToken(token);
         int id = admin.getCommunityId();
         Map<String,Object> map = new HashMap<>();
@@ -107,6 +113,16 @@ public class HouseorderController {
             return Result.build(400,"更新失败");
         }else{
             return Result.build(200,"更新成功");
+        }
+    }
+
+    @DeleteMapping("/delete")
+    public Result deleteById(@RequestParam("orderId") Integer orderId){
+        boolean status = houseorderService.removeById(orderId);
+        if(status==false){
+            return Result.build(400,"删除失败");
+        }else{
+            return Result.build(200,"删除成功");
         }
     }
 

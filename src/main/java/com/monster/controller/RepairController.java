@@ -81,17 +81,24 @@ public class RepairController {
 
     @GetMapping("/selectByMap")
     public Result findByConditions(@RequestParam("token") String token,
-                                   @RequestParam("repairStatus")
-                                           String repairStatus,
-                                   @RequestParam(value = "ownerName",required = false)
-                                           String ownerName){
+                                   @RequestParam("ownerName") String ownerName){
         Admin admin = authService.findAdminByToken(token);
         int id = admin.getCommunityId();
-        Map<String,Object> map = new HashMap<>();
-        map.put("communityId",id);
-        map.put("repairStatus",repairStatus);
-        map.put("ownerName",ownerName);
-        return Result.build(200,"查找成功",repairService.selectByMap(map));
+        Map<String,Object> map1 = new HashMap<>();
+        map1.put("communityId",id);
+        map1.put("repairStatus",1);
+        map1.put("ownerName",ownerName);
+        Map<String,Object> map2 = new HashMap<>();
+        map2.put("communityId",id);
+        map2.put("repairStatus",0);
+        map2.put("ownerName",ownerName);
+        List<Repair> doList = repairService.selectByMap(map1);
+        List<Repair> undoList = repairService.selectByMap(map2);
+        //两个List
+        Map<String,List> map = new HashMap<>();
+        map.put("doList",doList);
+        map.put("undoList",undoList);
+        return Result.build(200,"查找成功",map);
     }
     /*
     用户添加报修

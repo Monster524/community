@@ -14,6 +14,7 @@
         </association>
         <association property="pay" javaType="com.monster.entity.Pay">
             <id column="pay_id" property="payId"></id>
+            <result column="pay_name" property="payName"></result>
         </association>
     </resultMap>
 
@@ -26,7 +27,17 @@
     <select id="selectByMap" parameterType="Map" resultMap="orderMapper">
         select *
         from houseorder
-        where community_id = #{communityId} and order_status=#{orderStatus};
+        <where>
+            <if test="orderStatus!=null">
+                and order_status = #{orderStatus}
+            </if>
+            <if test="houseId!=null and houseId!=''">
+                and house_id = #{houseId}
+            </if>
+            <if test="communityId!=null">
+                and community_id=#{communityId}
+            </if>
+        </where>
     </select>
 
     <select id="owner" parameterType="Map" resultMap="orderMapper">
@@ -36,7 +47,23 @@
         on o.house_id = h.house_id
         left join owner
         on owner.owner_uid = h.owner_uid
-        where h.owner_uid = #{ownerUid} and order_status=#{orderStatus};
+        left join pay p
+        on o.pay_id = p.pay_id
+        <where>
+            <if test="ownerUid!=null">
+                and  h.owner_uid = #{ownerUid}
+            </if>
+            <if test="orderStatus!=null">
+                and order_status = #{orderStatus}
+            </if>
+            <if test="year!=null">
+                and Year(order_date)= #{year}
+            </if>
+            <if test="month!=null">
+                and  MONTH(order_date)= #{month}
+            </if>
+        </where>
+
     </select>
 
     <insert id="save" parameterType="com.monster.entity.Houseorder">

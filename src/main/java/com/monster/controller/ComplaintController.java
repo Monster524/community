@@ -74,17 +74,25 @@ public class ComplaintController {
 
     @GetMapping("/selectByMap")
     public Result findByConditions(@RequestParam("token") String token,
-                                   @RequestParam("complaintStatus")
-                                           String complaintStatus,
                                    @RequestParam(value = "ownerName",required = false)
                                            String ownerName){
         Admin admin = authService.findAdminByToken(token);
         int id = admin.getCommunityId();
-        Map<String,Object> map = new HashMap<>();
-        map.put("communityId",id);
-        map.put("complaintStatus",complaintStatus);
-        map.put("ownerName",ownerName);
-        return Result.build(200,"查找成功",complaintService.selectByMap(map));
+        Map<String,Object> map1 = new HashMap<>();
+        map1.put("communityId",id);
+        map1.put("complaintStatus",1);
+        map1.put("ownerName",ownerName);
+        Map<String,Object> map2 = new HashMap<>();
+        map2.put("communityId",id);
+        map2.put("complaintStatus",0);
+        map2.put("ownerName",ownerName);
+        List<Complaint> doList = complaintService.selectByMap(map1);
+        List<Complaint> undoList = complaintService.selectByMap(map2);
+        //两个List
+        Map<String,List> map = new HashMap<>();
+        map.put("doList",doList);
+        map.put("undoList",undoList);
+        return Result.build(200,"查找成功",map);
     }
     /*
     用户添加 投诉
@@ -96,6 +104,7 @@ public class ComplaintController {
         complaint.setCommunityId(owner.getCommunityId());
         LocalDateTime now = LocalDateTime.now();
         complaint.setComplaintDate(now);
+        complaint.setComplaintStatus(0);
         boolean status = complaintService.save(complaint);
         if(status==true){
             return Result.build(200,"添加成功");
