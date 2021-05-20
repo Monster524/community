@@ -9,6 +9,7 @@ import com.monster.entity.Admin;
 import com.monster.entity.Owner;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -52,6 +53,7 @@ public class AuthController {
             TokenVo tokenVo = new TokenVo();
             tokenVo.setToken(token);
             tokenVo.setExpireTime(owner.getExpireTime());
+            tokenVo.setCommunityId(owner.getCommunityId());
             return Result.ok(tokenVo);
         }
     }
@@ -72,6 +74,7 @@ public class AuthController {
             TokenVo tokenVo = new TokenVo();
             tokenVo.setToken(token);
             tokenVo.setExpireTime(admin.getExpireTime());
+            tokenVo.setCommunityId(admin.getCommunityId());
             return Result.ok(tokenVo);
         }
     }
@@ -96,7 +99,13 @@ public class AuthController {
         authService.ownerLogout(token);
         return Result.ok();
     }
-
+    @GetMapping("/admin/getByToken")
+    public Result getByToken(HttpServletRequest request) {
+        //从request中取出token
+        String token = TokenUtil.getRequestToken(request);
+        authService.findAdminByToken(token);
+        return  Result.build(200,"查找成功",authService.findAdminByToken(token));
+    }
 
     /**
      * 测试

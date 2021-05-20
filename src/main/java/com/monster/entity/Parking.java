@@ -1,6 +1,7 @@
 package com.monster.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import java.io.Serializable;
 import lombok.Data;
@@ -32,7 +33,8 @@ import lombok.Value;
 
     private Integer communityId;
 
+    @TableField(exist = false)
     private Owner owner;
-
+    @TableField(exist = false)
     private Car car;
 }

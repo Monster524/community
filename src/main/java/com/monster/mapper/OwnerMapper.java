@@ -26,4 +26,6 @@ public interface OwnerMapper extends BaseMapper<Owner> {
     Owner getById(Integer id);
 
     void updatePassword(Owner owner);
+
+
 }

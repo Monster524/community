@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.monster.mapper.HouseorderMapper">
+<mapper namespace="com.monster.mapper.CarorderMapper">
 
-    <resultMap id="orderMapper" type="com.monster.entity.Houseorder">
+    <resultMap id="carorderMapper" type="com.monster.entity.Carorder">
         <id column="order_id" property="orderId"></id>
         <result column="order_date" property="orderDate"></result>
         <result column="order_total" property="orderTotal"></result>
         <result column="order_content" property="orderContent"></result>
         <result column="order_status" property="orderStatus"></result>
         <result column="community_id" property="communityId"></result>
-        <association property="house" javaType="com.monster.entity.House">
-            <id column="house_id" property="houseId"></id>
+        <association property="parking" javaType="com.monster.entity.Parking">
+            <id column="parking_id" property="parkingId"></id>
+            <result column="parking_number" property="parkingNumber"></result>
         </association>
         <association property="pay" javaType="com.monster.entity.Pay">
             <id column="pay_id" property="payId"></id>
@@ -18,25 +19,25 @@
         </association>
     </resultMap>
 
-    <select id="list" parameterType="Map" resultMap="orderMapper">
+    <select id="list" parameterType="Integer" resultMap="carorderMapper">
         select *
-        from houseorder h
+        from carorder c
         left join pay p
-        on h.pay_id = p.pay_id
+        on c.pay_id = p.pay_id
         where community_id = #{communityId} and order_status = #{orderStatus};
     </select>
 
-    <select id="selectByMap" parameterType="Map" resultMap="orderMapper">
+    <select id="selectByMap" parameterType="Map" resultMap="carorderMapper">
         select *
-        from houseorder h
+        from carorder c
         left join pay p
-        on h.pay_id = p.pay_id
+        on c.pay_id = p.pay_id
         <where>
             <if test="orderStatus!=null">
                 and order_status = #{orderStatus}
             </if>
-            <if test="houseId!=null and houseId!=''">
-                and house_id = #{houseId}
+            <if test="parkingId!=null and parkingId!=''">
+                and parking_id = #{parkingId}
             </if>
             <if test="communityId!=null">
                 and community_id=#{communityId}
@@ -44,18 +45,18 @@
         </where>
     </select>
 
-    <select id="owner" parameterType="Map" resultMap="orderMapper">
+    <select id="owner" parameterType="Map" resultMap="carorderMapper">
         select *
-        from houseorder o
-        left join house h
-        on o.house_id = h.house_id
-        left join owner
-        on owner.owner_uid = h.owner_uid
+        from carorder c
+        left join parking par
+        on c.parking_id = par.parking_id
+        left join owner o
+        on par.owner_uid = o.owner_uid
         left join pay p
-        on o.pay_id = p.pay_id
+        on c.pay_id = p.pay_id
         <where>
             <if test="ownerUid!=null">
-                and  h.owner_uid = #{ownerUid}
+                and  par.owner_uid = #{ownerUid}
             </if>
             <if test="orderStatus!=null">
                 and order_status = #{orderStatus}
@@ -67,27 +68,11 @@
                 and  MONTH(order_date)= #{month}
             </if>
         </where>
-
     </select>
 
-    <insert id="save" parameterType="com.monster.entity.Houseorder">
-        insert into houseorder (order_date,order_total,order_content,order_status,community_id,house_id,pay_id)
-        values (#{orderDate},#{orderTotal},#{orderContent},#{orderStatus},#{communityId},#{house.houseId},#{pay.payId});
+    <insert id="save" parameterType="com.monster.entity.Carorder">
+        insert into carorder (order_date,order_total,order_content,order_status,community_id,parking_id,pay_id)
+        values (#{orderDate},#{orderTotal},#{orderContent},#{orderStatus},#{communityId},#{parking.parkingId},#{pay.payId});
     </insert>
-    
-    <select id="getId" parameterType="Map" resultType="Integer">
-        select  house_id
-        from house
-        <where>
-            house_status=1
-            <if test="communityId!=null">
-                and community_id=#{communityId}
-            </if>
-            <if test="str!=null">
-                and house_number like #{str}"%"
-            </if>
-        </where>
-    </select>
 
 </mapper>
-

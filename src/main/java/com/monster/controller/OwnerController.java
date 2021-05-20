@@ -73,7 +73,12 @@ public class OwnerController {
     public Result getById(@RequestParam("ownerUid") Integer id){
         return Result.build(200,"查找成功",ownerService.getById(id));
     }
-
+    @GetMapping("/getByToken")
+    public Result getByToken(@RequestParam("token") String token){
+        Owner owner = authService.findOwnerByToken(token);
+        int id = owner.getOwnerUid();
+        return Result.build(200,"查找成功",ownerService.getById(id));
+    }
     //业主姓名（模糊） 联系方式（精准）
     //名称和联系为空，返回全部
     @GetMapping("/selectByMap")

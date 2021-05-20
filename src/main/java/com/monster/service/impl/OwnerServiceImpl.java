@@ -1,6 +1,7 @@
 package com.monster.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.monster.auth.service.AuthService;
 import com.monster.entity.Owner;
 import com.monster.mapper.OwnerMapper;
 import com.monster.service.OwnerService;
@@ -24,6 +25,7 @@ public class OwnerServiceImpl extends ServiceImpl<OwnerMapper, Owner> implements
 
     @Autowired
     OwnerMapper ownerMapper;
+
 
     @Override
     public List<Owner> list(Integer id){
@@ -53,4 +55,5 @@ public class OwnerServiceImpl extends ServiceImpl<OwnerMapper, Owner> implements
         }
         return false;
     }
+
 }

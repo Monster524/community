@@ -38,6 +38,7 @@ public class HouseorderServiceImpl extends ServiceImpl<HouseorderMapper, Houseor
         传入三个id
          */
         Houseorder houseorder = new Houseorder();
+        houseorder.setCommunityId((Integer) map.get("communityId"));
 
         House house = houseMapper.selectById((Serializable) map.get("houseId"));
         Pay pay = payMapper.selectById((Serializable) map.get("payId"));
@@ -61,18 +62,18 @@ public class HouseorderServiceImpl extends ServiceImpl<HouseorderMapper, Houseor
         houseorder.setOrderTotal(total);
         houseorder.setOrderContent("单价："+pay.getPayUnitprice()+"\n"+"固定收费："+pay.getPayCost()+"\n"+"总金额："+total+"\n");
         houseorder.setOrderStatus(0);
-       // houseorder.setPayId((Integer) map.get("payId"));
-        //houseorder.setHouseId((Integer) map.get("houseId"));
-        houseorder.setCommunityId((Integer) map.get("communityId"));
+
+
 
         boolean status = houseorderMapper.save(houseorder);
         return status;
     }
 
     @Override
-    public List<Houseorder> list(int id) {
-        return houseorderMapper.list(id);
+    public List<Houseorder> list(Map<String, Object> map) {
+        return houseorderMapper.list(map);
     }
+
 
 
 
@@ -84,5 +85,10 @@ public class HouseorderServiceImpl extends ServiceImpl<HouseorderMapper, Houseor
     @Override
     public List<Houseorder> owner(Map<String, Object> map) {
         return houseorderMapper.owner(map);
+    }
+
+    @Override
+    public List<Integer> getId(Map<String, Object> map) {
+        return houseorderMapper.getId(map);
     }
 }

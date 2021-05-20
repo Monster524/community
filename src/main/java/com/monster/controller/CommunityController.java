@@ -1,6 +1,7 @@
 package com.monster.controller;
 
 
+import com.monster.common.utils.Result;
 import com.monster.entity.Community;
 import com.monster.service.CommunityService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,8 +28,8 @@ public class CommunityController {
 
 
     @GetMapping("/list")
-    public List<Community> list(){
-            return this.communityService.list();
+    public Result list(){
+        return Result.build(200,"查找成功",communityService.list());
     }
 
     @GetMapping("/find/{id}")

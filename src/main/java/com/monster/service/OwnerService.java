@@ -22,4 +22,5 @@ public interface OwnerService extends IService<Owner> {
     Owner getById(Integer id);
 
     boolean updatePassword(Owner owner);
+
 }
