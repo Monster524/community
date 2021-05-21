@@ -8,6 +8,7 @@
         <result column="owner_id" property="ownerId"></result>
         <result column="owner_phone" property="ownerPhone"></result>
         <result column="community_id" property="communityId"></result>
+        <result column="login_time" property="loginTime"></result>
         <collection property="parkings"  ofType="com.monster.entity.Parking">
             <id column="parking_id" property="parkingId"></id>
             <result column="parking_number" property="parkingNumber"></result>
@@ -16,11 +17,15 @@
             <id column="house_id" property="houseId"></id>
             <result column="house_number" property="houseNumber"></result>
         </collection>
+        <collection property="cars" ofType="com.monster.entity.Car">
+            <id column="car_id" property="carId"></id>
+            <result column="car_brand" property="carBrand"></result>
+            <result column="car_number" property="carNumber"></result>
+        </collection>
     </resultMap>
 
     <select id="list" parameterType="Integer" resultMap="ownerMap">
-        select owner.owner_uid,owner_name,owner_sex,owner_id,owner_phone,owner.community_id
-               house_id,house_number,parking_id,parking_number
+        select *
         from owner
         left join house
         on house.owner_uid=owner.owner_uid
@@ -30,8 +35,7 @@
     </select>
 
     <select id="selectByMap" resultMap="ownerMap">
-        select owner.owner_uid,owner_name,owner_sex,owner_id,owner_phone,owner.community_id
-               house_id,house_number,parking_id,parking_number
+        select *
         from owner
         left join house
         on house.owner_uid=owner.owner_uid
@@ -51,13 +55,14 @@
     </select>
 
     <select id="getById" parameterType="Integer" resultMap="ownerMap">
-        select owner.owner_uid,owner_name,owner_sex,owner_id,owner_phone,owner.community_id
-               house_id,house_number,parking_id,parking_number
+        select *
         from owner
         left join house
         on house.owner_uid=owner.owner_uid
         left join parking
         on parking.owner_uid=owner.owner_uid
+        left join car
+        on owner.owner_uid = car.owner_uid
         where owner.owner_uid=#{id};
     </select>
 

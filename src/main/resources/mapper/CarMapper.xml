@@ -9,6 +9,7 @@
         <association property="owner" javaType="com.monster.entity.Owner">
             <id column="owner_uid" property="ownerUid"></id>
             <result column="owner_name" property="ownerName"></result>
+            <result column="owner_phone" property="ownerPhone"></result>
         </association>
         <association property="parking"  javaType="com.monster.entity.Parking">
             <id column="parking_id" property="parkingId"></id>
@@ -29,7 +30,7 @@
     <!--条件查询-->
     <!--车位编号（模糊） 业主姓名（模糊） 状态-->
     <select id="selectByMap"  resultMap="carMap">
-        SELECT car_id,car_number,car_brand,car.owner_uid,owner_name,car.parking_id,parking_number
+        SELECT car_id,car_number,car_brand,car.owner_uid,owner_name,owner_phone,car.parking_id,parking_number
         FROM car
         LEFT JOIN owner
         ON car.owner_uid=owner.owner_uid

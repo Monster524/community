@@ -25,4 +25,12 @@ public interface StatisticMapper {
     StatisticVO ownerthisyear(Integer id);
 
     StatisticVO ownertotal(Integer id);
+
+    StatisticVO ownernotpay2(Integer id);
+
+    StatisticVO ownerthismonth2(Integer id);
+
+    StatisticVO ownerthisyear2(Integer id);
+
+    StatisticVO ownertotal2(Integer id);
 }

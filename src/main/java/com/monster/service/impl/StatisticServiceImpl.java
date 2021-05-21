@@ -32,10 +32,29 @@ public class StatisticServiceImpl implements StatisticService {
     @Override
     public Map<String, Object> owner(Integer id) {
         Map<String,Object> map = new HashMap<>();
-        StatisticVO vo1 = statisticMapper.ownernotpay(id);
-        StatisticVO vo2 = statisticMapper.ownerthismonth(id);
-        StatisticVO vo3 = statisticMapper.ownerthisyear(id);
-        StatisticVO vo4 = statisticMapper.ownertotal(id);
+
+        StatisticVO voh1 = statisticMapper.ownernotpay(id);
+        StatisticVO voh2 = statisticMapper.ownerthismonth(id);
+        StatisticVO voh3 = statisticMapper.ownerthisyear(id);
+        StatisticVO voh4 = statisticMapper.ownertotal(id);
+
+        StatisticVO voc1 = statisticMapper.ownernotpay2(id);
+        StatisticVO voc2 = statisticMapper.ownerthismonth2(id);
+        StatisticVO voc3 = statisticMapper.ownerthisyear2(id);
+        StatisticVO voc4 = statisticMapper.ownertotal2(id);
+
+        StatisticVO vo1 = new StatisticVO();
+        vo1.setCount(voh1.getCount()+voc1.getCount());
+        vo1.setSum(voh1.getSum()+voc1.getSum());
+        StatisticVO vo2 = new StatisticVO();
+        vo2.setCount(voh2.getCount()+voc2.getCount());
+        vo2.setSum(voh2.getSum()+voc2.getSum());
+        StatisticVO vo3 = new StatisticVO();
+        vo3.setCount(voh3.getCount()+voc3.getCount());
+        vo3.setSum(voh3.getSum()+voc3.getSum());
+        StatisticVO vo4 = new StatisticVO();
+        vo4.setCount(voh4.getCount()+voc4.getCount());
+        vo4.setSum(voh4.getSum()+voc4.getSum());
         map.put("notpay",vo1);
         map.put("thismonth",vo2);
         map.put("thisyear",vo3);

@@ -60,5 +60,8 @@ import org.springframework.format.annotation.DateTimeFormat;
 
   @TableField(exist = false)
   private List<Parking> parkings;
+
+    @TableField(exist = false)
+    private List<Car> cars;
 }
 

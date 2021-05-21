@@ -30,7 +30,6 @@ import org.springframework.format.annotation.DateTimeFormat;
 
     private String adminName;
     private String adminPhone;
-  @TableField(exist = false)
     private String adminPassword;
     private Integer communityId;
   /**

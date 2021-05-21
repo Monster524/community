@@ -23,6 +23,9 @@
         where order_status=1;
     </select>
 
+
+
+
     <select id="ownerthismonth" parameterType="Integer" resultType="com.monster.vo.StatisticVO">
         select count(*) as count,sum(order_total) as sum
         from houseorder o
@@ -61,4 +64,43 @@
         where  h.owner_uid = #{id} and order_status=1;
     </select>
 
+
+
+    <select id="ownerthismonth2" parameterType="Integer" resultType="com.monster.vo.StatisticVO">
+        select count(*) as count,sum(order_total) as sum
+        from carorder o
+            left join parking p
+        on o.parking_id = p.parking_id
+            left join owner
+            on owner.owner_uid = p.owner_uid
+        where  p.owner_uid = #{id} and  MONTH(order_date) = MONTH(curdate());
+    </select>
+    <select id="ownernotpay2" parameterType="Integer" resultType="com.monster.vo.StatisticVO">
+        select count(*) as count,sum(order_total) as sum
+        from carorder o
+            left join parking p
+        on o.parking_id = p.parking_id
+            left join owner
+            on owner.owner_uid = p.owner_uid
+        where  p.owner_uid = #{id} and  MONTH(order_date) = MONTH(curdate())
+        and order_status=0;
+    </select>
+    <select id="ownerthisyear2" parameterType="Integer" resultType="com.monster.vo.StatisticVO">
+        select count(*) as count,sum(order_total) as sum
+        from carorder o
+            left join parking p
+        on o.parking_id = p.parking_id
+            left join owner
+            on owner.owner_uid = p.owner_uid
+        where  p.owner_uid = #{id} and  YEAR (order_date) = YEAR (curdate());
+    </select>
+    <select id="ownertotal2" parameterType="Integer" resultType="com.monster.vo.StatisticVO">
+        select count(*) as count,sum(order_total) as sum
+        from carorder o
+            left join parking p
+        on o.parking_id = p.parking_id
+            left join owner
+            on owner.owner_uid = p.owner_uid
+        where  p.owner_uid = #{id} and  order_status=1;
+    </select>
 </mapper>

@@ -32,6 +32,10 @@ public class CommunityController {
         return Result.build(200,"查找成功",communityService.list());
     }
 
+    @GetMapping("/getById")
+    public Result getById(@RequestParam("communityId")Integer id){
+        return Result.build(200,"查询成功",communityService.getById(id));
+    }
     @GetMapping("/find/{id}")
     public Community find(@PathVariable("id") Integer id){
         return this.communityService.getById(id);

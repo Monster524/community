@@ -60,11 +60,14 @@ public class AuthController {
 
     @PostMapping("/admin/login")
     public Result adminLogin(@Validated @RequestBody LoginDto loginDto,BindingResult bindingResult){
-
+        if (bindingResult.hasErrors()) {
+            return Result.build(400,
+                    bindingResult.getFieldError().getDefaultMessage());
+        }
         String phone = loginDto.getPhone();
         String password = loginDto.getPassword();
         //用户信息
-        Admin admin = authService.findAdminByPhone(phone);//根据电话找到owner
+        Admin admin = authService.findAdminByPhone(phone);//根据电话找到admin
         //账号不存在、密码错误
         if (admin == null || !admin.getAdminPassword().equals(password)) {
             return Result.build(400, "用户名或密码错误");

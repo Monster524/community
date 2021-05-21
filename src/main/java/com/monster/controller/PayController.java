@@ -6,6 +6,7 @@ import com.monster.auth.service.AuthService;
 import com.monster.common.utils.Result;
 import com.monster.entity.Admin;
 import com.monster.entity.Community;
+import com.monster.entity.Notice;
 import com.monster.entity.Pay;
 import com.monster.service.CommunityService;
 import com.monster.service.PayService;
@@ -64,7 +65,15 @@ public class PayController {
             return Result.build(200,"删除成功");
         }
     }
-
+    @PutMapping("/update")
+    public Result update(@RequestBody Pay pay){
+        boolean status = payService.updateById(pay);
+        if(status==false){
+            return Result.build(400,"更新失败");
+        }else{
+            return Result.build(200,"更新成功");
+        }
+    }
 
 }
 

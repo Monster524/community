@@ -23,7 +23,8 @@
         from houseorder h
         left join pay p
         on h.pay_id = p.pay_id
-        where community_id = #{communityId} and order_status = #{orderStatus};
+        where community_id = #{communityId} and order_status = #{orderStatus}
+        order by h.order_date DESC;
     </select>
 
     <select id="selectByMap" parameterType="Map" resultMap="orderMapper">
@@ -42,6 +43,7 @@
                 and community_id=#{communityId}
             </if>
         </where>
+        order by h.order_date DESC;
     </select>
 
     <select id="owner" parameterType="Map" resultMap="orderMapper">
@@ -84,7 +86,7 @@
                 and community_id=#{communityId}
             </if>
             <if test="str!=null">
-                and house_number like #{str}"%"
+                and house_number like "%"#{str}"%"
             </if>
         </where>
     </select>
