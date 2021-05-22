@@ -16,6 +16,7 @@
         <collection property="houses"  ofType="com.monster.entity.House">
             <id column="house_id" property="houseId"></id>
             <result column="house_number" property="houseNumber"></result>
+            <result column="house_area" property="houseArea"></result>
         </collection>
         <collection property="cars" ofType="com.monster.entity.Car">
             <id column="car_id" property="carId"></id>

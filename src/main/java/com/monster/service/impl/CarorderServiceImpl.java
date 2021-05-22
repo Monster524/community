@@ -63,8 +63,8 @@ public class CarorderServiceImpl extends ServiceImpl<CarorderMapper, Carorder> i
     }
 
     @Override
-    public List<Carorder> list(Map<String, Object> map) {
-        return carorderMapper.list(map);
+    public List<Carorder> list(Integer cid) {
+        return carorderMapper.list(cid);
     }
 
     @Override
@@ -75,5 +75,10 @@ public class CarorderServiceImpl extends ServiceImpl<CarorderMapper, Carorder> i
     @Override
     public List<Carorder> owner(Map<String, Object> map) {
         return carorderMapper.owner(map);
+    }
+
+    @Override
+    public List<Integer> getId(Map<String, Object> map) {
+        return carorderMapper.getId(map);
     }
 }

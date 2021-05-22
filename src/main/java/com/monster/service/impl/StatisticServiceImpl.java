@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -31,18 +32,25 @@ public class StatisticServiceImpl implements StatisticService {
 
     @Override
     public Map<String, Object> owner(Integer id) {
-        Map<String,Object> map = new HashMap<>();
+        Map<String,Object> map = new LinkedHashMap<>();
 
         StatisticVO voh1 = statisticMapper.ownernotpay(id);
         StatisticVO voh2 = statisticMapper.ownerthismonth(id);
         StatisticVO voh3 = statisticMapper.ownerthisyear(id);
         StatisticVO voh4 = statisticMapper.ownertotal(id);
+        map.put("notpayhouse",voh1);
+        map.put("thismonthhouse",voh2);
+        map.put("thisyearhouse",voh3);
+        map.put("totalhouse",voh4);
 
         StatisticVO voc1 = statisticMapper.ownernotpay2(id);
         StatisticVO voc2 = statisticMapper.ownerthismonth2(id);
         StatisticVO voc3 = statisticMapper.ownerthisyear2(id);
         StatisticVO voc4 = statisticMapper.ownertotal2(id);
-
+        map.put("notpaycar",voc1);
+        map.put("thismonthcar",voc2);
+        map.put("thisyearcar",voc3);
+        map.put("totalcar",voc4);
         StatisticVO vo1 = new StatisticVO();
         vo1.setCount(voh1.getCount()+voc1.getCount());
         vo1.setSum(voh1.getSum()+voc1.getSum());

@@ -70,8 +70,8 @@ public class HouseorderServiceImpl extends ServiceImpl<HouseorderMapper, Houseor
     }
 
     @Override
-    public List<Houseorder> list(Map<String, Object> map) {
-        return houseorderMapper.list(map);
+    public List<Houseorder> list(Integer cid) {
+        return houseorderMapper.list(cid);
     }
 
 

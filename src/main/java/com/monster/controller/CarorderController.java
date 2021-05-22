@@ -41,19 +41,10 @@ public class CarorderController {
         int id = admin.getCommunityId();
        // List<Carorder> doList = carorderService.list(new QueryWrapper<Carorder>().eq("community_id",id).eq("order_status",1));
        // List<Carorder> undoList = carorderService.list(new QueryWrapper<Carorder>().eq("community_id",id).eq("order_status",0));
-        Map<String,Object> map1 = new HashMap<>();
-        map1.put("communityId",id);
-        map1.put("orderStatus",1);
-        Map<String,Object> map2 = new HashMap<>();
-        map2.put("communityId",id);
-        map2.put("orderStatus",0);
-        List<Carorder> doList = carorderService.list(map1);
-        List<Carorder> undoList = carorderService.list(map2);
 
-        Map<String,List> map = new HashMap<>();
-        map.put("doList",doList);
-        map.put("undoList",undoList);
-        return Result.build(200,"查找成功",map);
+
+
+        return Result.build(200,"查找成功",carorderService.list(id));
     }
 
     @GetMapping("/findByToken")
@@ -110,6 +101,32 @@ public class CarorderController {
         }
     }
 
+    @PostMapping("/addAll")
+    public Result addAll(@RequestParam("token") String token,
+                         @RequestBody Map<String,Object> request)
+    {
+        try{
+            Admin admin = authService.findAdminByToken(token);
+            int cid = admin.getCommunityId();
+            Map<String,Object> map = new HashMap<>();
+            map.put("communityId",cid);
+
+
+            Map<String,Object> temp = new HashMap<>();
+            temp.put("communityId",cid);
+            temp.put("payId",request.get("payId"));
+            List<Integer> list;
+            list = carorderService.getId(map);
+            for (Integer pid:list) {
+                temp.put("parkingId",pid);
+                carorderService.save(temp);
+            }
+            return Result.build(200,"添加成功");
+        }catch (Exception e){
+            return Result. build(400,"添加失败");
+        }
+
+    }
     @PutMapping("/update")
     public Result update(@RequestBody Carorder carorder){
         boolean status = carorderService.updateById(carorder);

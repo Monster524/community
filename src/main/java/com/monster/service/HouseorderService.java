@@ -18,11 +18,13 @@ public interface HouseorderService extends IService<Houseorder> {
 
     boolean save(Map<String, Object> map);
 
-    List<Houseorder> list(Map<String,Object> map);
+    List<Houseorder> list(Integer cid);
 
     List<Houseorder> selectByMap(Map<String, Object> map);
 
     List<Houseorder> owner(Map<String, Object> map1);
 
     List<Integer> getId(Map<String, Object> map);
+
+
 }

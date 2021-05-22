@@ -20,7 +20,7 @@ public interface HouseorderMapper extends BaseMapper<Houseorder> {
 
     boolean save(Houseorder houseorder);
 
-    List<Houseorder> list(Map<String, Object> map);
+    List<Houseorder> list(Integer map);
 
     List<Houseorder> selectByMap(Map<String,Object> map);
 

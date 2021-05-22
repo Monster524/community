@@ -19,9 +19,12 @@ import java.util.Map;
 
 public interface CarorderService extends IService<Carorder> {
     boolean save(Map<String, Object> map);
-    List<Carorder> list(Map<String,Object> map);
+    List<Carorder> list(Integer cid);
 
     List<Carorder> selectByMap(Map<String, Object> map);
     List<Carorder> owner(Map<String, Object> map1);
+
+    List<Integer> getId(Map<String, Object> map);
+
 
 }

@@ -11,10 +11,16 @@
         <result column="community_id" property="communityId"></result>
         <association property="house" javaType="com.monster.entity.House">
             <id column="house_id" property="houseId"></id>
+            <result column="house_number" property="houseNumber"></result>
         </association>
         <association property="pay" javaType="com.monster.entity.Pay">
             <id column="pay_id" property="payId"></id>
             <result column="pay_name" property="payName"></result>
+        </association>
+        <association property="owner" javaType="com.monster.entity.Owner">
+            <id column="owner_uid" property="ownerUid"></id>
+            <result column="owner_name" property="ownerName"></result>
+            <result column="owner_phone" property="ownerPhone"></result>
         </association>
     </resultMap>
 
@@ -23,7 +29,11 @@
         from houseorder h
         left join pay p
         on h.pay_id = p.pay_id
-        where community_id = #{communityId} and order_status = #{orderStatus}
+        left join house
+        on h.house_id = house.house_id
+        left join owner o
+        on o.owner_uid = house.owner_uid
+        where h.community_id = #{communityId}
         order by h.order_date DESC;
     </select>
 

@@ -40,20 +40,8 @@ public class HouseorderController {
         Admin admin = authService.findAdminByToken(token);
         int id = admin.getCommunityId();
 
-        Map<String,Object> map1 = new HashMap<>();
-        map1.put("communityId",id);
-        map1.put("orderStatus",1);
 
-        Map<String,Object> map2 = new HashMap<>();
-        map2.put("communityId",id);
-        map2.put("orderStatus",0);
-
-        List<Houseorder> doList = houseorderService.selectByMap(map1);
-        List<Houseorder> undoList = houseorderService.selectByMap(map2);
-        Map<String,List> map = new HashMap<>();
-        map.put("doList",doList);
-        map.put("undoList",undoList);
-        return Result.build(200,"查找成功",map);
+        return Result.build(200,"查找成功",houseorderService.list(id));
     }
 
     @GetMapping("/findByToken")

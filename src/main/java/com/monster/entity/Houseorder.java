@@ -42,10 +42,11 @@ import org.springframework.format.annotation.DateTimeFormat;
     //private Integer houseId;
 
     //private Integer payId;
-
-
   @TableField(exist = false)
     private House house;
   @TableField(exist = false)
     private Pay pay;
+  @TableField(exist = false)
+  private Owner owner;
+
 }

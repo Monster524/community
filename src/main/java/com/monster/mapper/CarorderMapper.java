@@ -24,7 +24,9 @@ public interface CarorderMapper extends BaseMapper<Carorder> {
 
     boolean save(Carorder carorder);
 
-    List<Carorder> list(Map<String, Object> map);
+    List<Carorder> list(Integer map);
     List<Carorder> owner(Map<String, Object> map);
     List<Carorder> selectByMap(Map<String, Object> map);
+
+    List<Integer> getId(Map<String, Object> map);
 }
